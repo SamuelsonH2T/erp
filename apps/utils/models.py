@@ -9,7 +9,7 @@ class Regiao(models.Model):
         return "{n}({s})".format(n=self.nome, s=self.sigla)
 
     class Meta:
-        verbose_name = 'Regiao'
+        verbose_name = 'Região'
         verbose_name_plural = 'Regiões'
 
 
@@ -29,7 +29,7 @@ class Estado(models.Model):
 class Cidade(models.Model):
     nome = models.CharField(max_length=42,unique=True)
     estado = models.ForeignKey(Estado)
-    ddd = models.CharField(max_length=2)
+    ddd = models.CharField(max_length=2 , verbose_name ='DDD', help_text = 'Discagem Direta a Distância')
 
     def __str__(self):
         return "{n}".format(n=self.nome)
