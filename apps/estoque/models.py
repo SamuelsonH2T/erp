@@ -55,3 +55,54 @@ class Produto(models.Model):
     class Meta:
         verbose_name = 'Produto'
         verbose_name_plural = 'Produtos'
+
+
+
+class Lote(models.Model):
+    codigo = models.CharField(max_length=42)
+    data_validade = models.DateField(max_length=10)
+    produto = models.ForeignKey(Produto)
+
+    #def __str__(self):
+    #    return "{c}".format(c=self.codigo)
+
+    class Meta:
+        verbose_name = 'Lote'
+        verbose_name_plural = 'Lotes'
+
+
+
+
+class Prateleira(models.Model):
+    codigo = models.CharField(max_length=42)
+    categoria = models.ForeignKey(Categoria)
+
+    def __str__(self):
+        return "{c}".format(c=self.categoria)
+
+
+    class Meta:
+
+        verbose_name = 'Prateleira'
+        verbose_name_plural = 'Prateleiras'
+
+
+
+class Estoque(models.Model):
+    lote = models.ForeignKey(Lote)
+    quantidade = models.DecimalField(max_digits=10, decimal_places=2)
+    prateleira = models.ForeignKey(Prateleira)
+
+    def adcionar(self, quant):
+        self.quantidade += quant
+
+    def subtrair(self, quant):
+        self.quantidade -= quant
+
+    def __str__(self):
+        return "[{c}]:{l}".format(l=self.lote, c=self.codigo)
+
+    class Meta:
+        unique_together = ('lote', 'prateleira')
+        verbose_name = 'Estoque'
+        verbose_name_plural = 'Estoque de Produtos'

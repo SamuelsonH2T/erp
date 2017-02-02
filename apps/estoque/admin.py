@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from . models import Produto, Fabricante, Marca, Categoria
+from . models import Produto, Fabricante, Marca, Categoria, Estoque,Prateleira,Lote
 
 
 
@@ -13,6 +13,7 @@ class MarcaInline(admin.TabularInline):
 class ProdutoInline(admin.TabularInline):
     model = Produto
     extra = 0
+
 
 #MODEL ADMIN
 
@@ -38,12 +39,31 @@ class MarcaAdmin(admin.ModelAdmin):
     ]
 
 class ProdutoAdmin(admin.ModelAdmin):
-    list_display = ['codigo','nome','marca']
-    list_filter = ['marca']
+    list_display = ['codigo','nome','marca', 'categoria']
+    list_filter = ['marca', 'categoria' ]
     search_fields = ['marca__nome']
+
+
+class PrateleiraAdmin(admin.ModelAdmin):
+    list_display = ['codigo', 'categoria']
+    list_filter = ['categoria']
+    search_fields = ['categoria']
+
+
+class EstoqueAdmin(admin.ModelAdmin):
+    list_display = ['lote']
+    search_fields = ['lote']
+
+
+class LoteAdmin(admin.ModelAdmin):
+    list_display = ['codigo','produto','data_validade']
+    search_fields = ['produto']
 
 
 admin.site.register(Categoria)
 admin.site.register(Produto, ProdutoAdmin)
 admin.site.register(Fabricante, FabricanteAdmin)
 admin.site.register(Marca, MarcaAdmin)
+admin.site.register(Prateleira, PrateleiraAdmin)
+admin.site.register(Estoque, EstoqueAdmin)
+admin.site.register(Lote, LoteAdmin)
